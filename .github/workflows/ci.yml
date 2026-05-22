@@ -27,9 +27,15 @@ jobs:
         working-directory: ./docker
         run: docker compose up -d
 
-      # timer
+      # Healthcheck
       - name: Wait for services
-        run: sleep 15
+        run: |
+          echo "Waiting for PostgreSQL..."
+          until docker exec $(docker ps -qf "name=nexum-db") pg_isready -U nexum_user -d nexum_db; do
+            echo "PostgreSQL not ready yet, retrying..."
+            sleep 2
+          done
+          echo "PostgreSQL is ready!"
 
       - name: Build and Test (Backend)
         working-directory: ./backend
