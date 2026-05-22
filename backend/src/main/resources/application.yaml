@@ -5,6 +5,11 @@ spring:
   application:
     name: nexum
 
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
   # Conexão com o banco
   datasource:
     url: jdbc:postgresql://localhost:5432/nexum_db
@@ -15,12 +20,11 @@ spring:
   # Hibernate
   jpa:
     hibernate:
-      ddl-auto: update # Nota: Manter só para o desenvolvimento
+      ddl-auto: validate #Flyway
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   # Conexão com o Redis (cache)
   data:
