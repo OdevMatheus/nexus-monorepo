@@ -1,9 +1,6 @@
 package com.matheushenrique.nexum.config;
 
-import com.matheushenrique.nexum.security.exceptions.EmailAlreadyInUseException;
-import com.matheushenrique.nexum.security.exceptions.EmailNotVerifiedException;
-import com.matheushenrique.nexum.security.exceptions.InvalidCredentialsException;
-import com.matheushenrique.nexum.security.exceptions.InvalidTokenException;
+import com.matheushenrique.nexum.security.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -22,6 +19,11 @@ public class GlobalExceptionHandler {
             String message,
             Instant timestamp
     ) {}
+
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleClientNotFound(ClientNotFoundException ex) {
+        return build(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
     public ResponseEntity<ErrorResponse> handleEmailInUse(EmailAlreadyInUseException ex) {

@@ -127,7 +127,6 @@ public class AuthServiceImpl {
             throw new InvalidTokenException("Refresh token expired or already used");
         }
 
-        // Rotação: invalida o anterior, emite novo par
         String newAccessToken  = jwtService.generateAccessToken(user.getId(), user.getEmail());
         String newRefreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
 
